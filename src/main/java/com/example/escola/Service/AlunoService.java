@@ -4,6 +4,7 @@ import com.example.escola.Dto.CadastrarAlunoDto;
 import com.example.escola.Entity.Aluno;
 import com.example.escola.Repository.AlunoRepository;
 import com.example.escola.exception.BadRequestException;
+import com.example.escola.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class AlunoService {
 
         if (alunoExistente.isPresent()) {
             throw new BadRequestException(String.format("Já existe um aluno cadastrado com esse CPF"));
-           } else{
+        } else {
             Aluno novoAluno = new Aluno();
             novoAluno.setNome(cadastrarAlunoDto.getNome());
             novoAluno.setCpf(cadastrarAlunoDto.getCpf());
@@ -39,6 +40,18 @@ public class AlunoService {
         }
     }
 
+    public Aluno buscarAlunoPorMatricula(String matricula) {
+        Aluno aluno = alunoRepository.findByMatricula(matricula);
+
+        if (aluno == null){
+            throw new NotFoundException("Aluno não encontrado");
+        }
+        return aluno;
+    }
+
+
 }
+
+
 
 

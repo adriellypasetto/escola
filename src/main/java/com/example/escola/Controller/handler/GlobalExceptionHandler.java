@@ -1,6 +1,7 @@
 package com.example.escola.Controller.handler;
 
 import com.example.escola.exception.BadRequestException;
+import com.example.escola.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -10,12 +11,21 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler
-            (BadRequestException.class)
-    @ResponseStatus
-            (HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleBadRequestException(BadRequestException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    @ExceptionHandler (BadRequestException.class)
+    public ResponseEntity<ErroGenericoResponse> badRequestExceptionHandler(BadRequestException e) {
+        ErroGenericoResponse erroResponse = new ErroGenericoResponse(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erroResponse);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErroGenericoResponse> notFoundExceptionHandler(NotFoundException e) {
+        ErroGenericoResponse erroResponse = new ErroGenericoResponse(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(), e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erroResponse);
+    }
+  @ResponseStatus
+           (HttpStatus.BAD_REQUEST)
+   public ResponseEntity<String> handleBadRequestException(BadRequestException ex) {
+       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
 }

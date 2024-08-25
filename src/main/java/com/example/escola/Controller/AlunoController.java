@@ -7,10 +7,7 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/aluno")
@@ -28,6 +25,12 @@ public class AlunoController {
 
             Aluno alunoCadastrado = alunoService.cadastrarAluno(cadastrarAlunoDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(alunoCadastrado);
+    }
+
+    @GetMapping("/{matricula}")
+    public ResponseEntity<Aluno> buscarAluno (@PathVariable String matricula){
+        Aluno aluno = alunoService.buscarAlunoPorMatricula(matricula);
+            return ResponseEntity.ok().body(aluno);
     }
 }
 
