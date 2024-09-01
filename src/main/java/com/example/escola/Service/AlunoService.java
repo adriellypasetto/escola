@@ -8,6 +8,7 @@ import com.example.escola.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AlunoService {
@@ -40,10 +41,19 @@ public class AlunoService {
         }
     }
 
-    public Aluno buscarAlunoPorMatricula(String matricula) {
-        Aluno aluno = alunoRepository.findByMatricula(matricula);
+    public Optional<Aluno> buscarAlunoPorMatricula(String matricula) {
+        Optional<Aluno> aluno = Optional.ofNullable(alunoRepository.findByMatricula(matricula));
 
-        if (aluno == null){
+        if (aluno.isEmpty()){
+            throw new NotFoundException("Aluno não encontrado");
+        }
+        return aluno;
+    }
+
+    public Optional<Aluno> buscarAlunoPorId(UUID id){
+        Optional<Aluno> aluno = alunoRepository.findById(id);
+
+        if (aluno.isEmpty()){
             throw new NotFoundException("Aluno não encontrado");
         }
         return aluno;

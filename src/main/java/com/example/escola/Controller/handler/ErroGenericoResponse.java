@@ -17,5 +17,6 @@ public class ErroGenericoResponse {
     private HttpStatus status;
     private int code;
     private Object erro;
+    private String message;
 
 }

@@ -3,11 +3,13 @@ package com.example.escola.Controller;
 import com.example.escola.Dto.CadastrarAlunoDto;
 import com.example.escola.Entity.Aluno;
 import com.example.escola.Service.AlunoService;
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/aluno")
@@ -28,9 +30,15 @@ public class AlunoController {
     }
 
     @GetMapping("/{matricula}")
-    public ResponseEntity<Aluno> buscarAluno (@PathVariable String matricula){
-        Aluno aluno = alunoService.buscarAlunoPorMatricula(matricula);
-            return ResponseEntity.ok().body(aluno);
+    public ResponseEntity<Aluno> buscarAlunoMatricula(@PathVariable String matricula) {
+        Aluno aluno = alunoService.buscarAlunoPorMatricula(matricula).get();
+        return ResponseEntity.ok(aluno);
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<Aluno> buscarAlunoId(@PathVariable UUID id){
+        Aluno aluno = alunoService.buscarAlunoPorId(id).get();
+        return ResponseEntity.ok(aluno);
     }
 }
 
