@@ -40,6 +40,12 @@ public class AlunoController {
         Aluno aluno = alunoService.buscarAlunoPorId(id).get();
         return ResponseEntity.ok(aluno);
     }
+
+    @GetMapping()
+    public ResponseEntity<Aluno> buscarAlunoNome (@RequestParam String nome){
+        Aluno aluno = alunoService.buscarAlunoPorNome(nome).get();
+        return ResponseEntity.ok(aluno);
+    }
 }
 
 

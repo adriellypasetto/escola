@@ -59,6 +59,12 @@ public class AlunoService {
         return aluno;
     }
 
+    public Optional<Aluno> buscarAlunoPorNome(String nomeAluno){
+        return Optional.ofNullable(alunoRepository.findByNome(nomeAluno).orElseThrow(
+                () -> new NotFoundException("Não encontrado aluno com esse nome")));
+    }
+
+
 
 }
 
